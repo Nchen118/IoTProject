@@ -1,0 +1,98 @@
+{
+  "project_info": {
+    "project_number": "968098298405",
+    "firebase_url": "https://iotass-767a5.firebaseio.com",
+    "project_id": "iotass-767a5",
+    "storage_bucket": "iotass-767a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968098298405:android:eb0c0e0d15f3bbb38e1dcc",
+        "android_client_info": {
+          "package_name": "com.example.iotproject"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968098298405-93na8c0mq3ku68dmefjqvv4jn6v0h8mo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRkI1KMoySwpQ9pajBoYUuxq79NgjBhHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968098298405-93na8c0mq3ku68dmefjqvv4jn6v0h8mo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968098298405:android:a03cf91c4b75297a8e1dcc",
+        "android_client_info": {
+          "package_name": "com.example.room"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968098298405-93na8c0mq3ku68dmefjqvv4jn6v0h8mo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRkI1KMoySwpQ9pajBoYUuxq79NgjBhHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968098298405-93na8c0mq3ku68dmefjqvv4jn6v0h8mo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:968098298405:android:a4f2a45e0cc2bf028e1dcc",
+        "android_client_info": {
+          "package_name": "com.example.testing"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "968098298405-93na8c0mq3ku68dmefjqvv4jn6v0h8mo.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCRkI1KMoySwpQ9pajBoYUuxq79NgjBhHQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "968098298405-93na8c0mq3ku68dmefjqvv4jn6v0h8mo.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
