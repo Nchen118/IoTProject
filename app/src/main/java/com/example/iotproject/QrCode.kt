@@ -1,6 +1,7 @@
 package com.example.iotproject
 
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -22,14 +23,12 @@ class QrCode : AppCompatActivity(), ResultHandler {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_code)
         scannerView = findViewById(R.id.scanner)
-        if(!checkPermission()) requestPermission()
-    }
-    private fun checkPermission(): Boolean {
-        return ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
+        if(!checkPermission())
+            ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA),requestCam)
     }
 
-    private fun requestPermission(){
-        ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA),requestCam)
+    private fun checkPermission(): Boolean {
+        return ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
 
     override fun onResume() {
@@ -49,22 +48,9 @@ class QrCode : AppCompatActivity(), ResultHandler {
         scannerView?.stopCamera()
     }
 
-    override fun handleResult(p0: Result?) {
-        val result:String? = p0?.text
+    override fun handleResult(result: Result?) {
         val vibrator = applicationContext.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(200)
-        txtResult?.text = result
-        Toast.makeText(this,result, Toast.LENGTH_SHORT).show()
-        scannerView?.setResultHandler(this)
-        scannerView?.startCamera()
-//        val builder:AlertDialog.Builder = AlertDialog.Builder(this)
-//        builder.setTitle("Result")
-//        builder.setPositiveButton("ok"){ dialog, which ->
-//            scannerView?.resumeCameraPreview(this)
-//            startActivity(intent)
-//        }
-//        builder.setMessage(result)
-//        val alert:AlertDialog = builder.create()
-//        alert.show()
+        startActivity(Intent(this, FingerPrint::class.java).putExtra("RoomId", result.toString()))
     }
 }
