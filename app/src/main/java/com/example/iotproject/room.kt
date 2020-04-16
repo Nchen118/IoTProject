@@ -8,6 +8,7 @@ import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_room.*
+import kotlin.math.roundToInt
 
 class room : AppCompatActivity() {
 
@@ -18,13 +19,14 @@ class room : AppCompatActivity() {
         setContentView(R.layout.activity_room)
 
         val database = FirebaseDatabase.getInstance()
-        val light = database.getReference("/Room/light")
-        val fan = database.getReference("/Room/fan")
-        val lightAuto = database.getReference("/Room/lightAuto")
-        val fanAuto = database.getReference("/Room/fanAuto")
-        val temp = database.getReference("/Room/temp")
-        val hum = database.getReference("/Room/hum")
-        val intensity = database.getReference("/Room/intensity")
+        var id:Int = 1
+        val light = database.getReference("/Room/$id/light")
+        val fan = database.getReference("/Room/$id/fan")
+        val lightAuto = database.getReference("/Room/$id/lightAuto")
+        val fanAuto = database.getReference("/Room/$id/fanAuto")
+        val temp = database.getReference("/Room/$id/temp")
+        val hum = database.getReference("/Room/$id/hum")
+        val intensity = database.getReference("/Room/$id/intensity")
         var l = Library()
 
 //        light.setValue("0")
@@ -49,7 +51,8 @@ class room : AppCompatActivity() {
             }
             override fun onDataChange(p0: DataSnapshot) {
                 val post = p0.getValue(String::class.java) ?: return
-                lightText.text = "Light: ${l.lightPowerCon(post.toInt())}"
+                var p = (post.toFloat() / 255 * 100).roundToInt()
+                lightText.text = "Light: $p %"
 
             }
         })
