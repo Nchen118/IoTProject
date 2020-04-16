@@ -14,7 +14,6 @@ import me.dm7.barcodescanner.zxing.ZXingScannerView
 import me.dm7.barcodescanner.zxing.ZXingScannerView.ResultHandler
 
 class QrCode : AppCompatActivity(), ResultHandler {
-
     private val requestCam = 1
     private var txtResult: TextView?= null
     private var scannerView: ZXingScannerView?=null
@@ -22,15 +21,13 @@ class QrCode : AppCompatActivity(), ResultHandler {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_code)
-
-
         scannerView = findViewById(R.id.scanner)
-        if(!checkPermission())
-            requestPermission()
+        if(!checkPermission()) requestPermission()
     }
     private fun checkPermission(): Boolean {
         return ContextCompat.checkSelfPermission(this, android.Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED
     }
+
     private fun requestPermission(){
         ActivityCompat.requestPermissions(this, arrayOf(android.Manifest.permission.CAMERA),requestCam)
     }
