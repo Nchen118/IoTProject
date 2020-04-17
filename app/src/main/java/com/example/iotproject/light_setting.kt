@@ -21,7 +21,6 @@ class light_setting : AppCompatActivity() {
     private val light = database.getReference("/Room/$id/light")
     private val lightAuto = database.getReference("/Room/$id/lightAuto")
     private val intensity = database.getReference("/Room/$id/lightIntensity")
-    private var l = Library()
     override fun onCreate(savedInstanceState: Bundle?) {
 
         super.onCreate(savedInstanceState)

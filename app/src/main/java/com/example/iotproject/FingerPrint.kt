@@ -10,17 +10,15 @@ import android.security.keystore.KeyGenParameterSpec
 import android.security.keystore.KeyPermanentlyInvalidatedException
 import android.security.keystore.KeyProperties
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import com.google.firebase.firestore.FirebaseFirestore
-
 import kotlinx.android.synthetic.main.activity_finger_print.*
 import java.io.IOException
-import java.net.NetworkInterface
 import java.security.*
 import java.security.cert.CertificateException
-import java.util.*
 import javax.crypto.Cipher
 import javax.crypto.KeyGenerator
 import javax.crypto.NoSuchPaddingException
@@ -41,26 +39,43 @@ class FingerPrint : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_finger_print)
 
+        loading.visibility = View.VISIBLE
+        username.visibility = View.GONE
+        fingerprint_iv.visibility = View.GONE
+        fingerprint_tv.visibility = View.GONE
+
         val roomid = intent.getStringExtra("RoomId")
 
         FirebaseFirestore.getInstance().collection("users").document(roomid).get()
             .addOnSuccessListener { result ->
                 if (result != null) {
-                    var currentMac = getMac()
+                    val sharedPreferences = getSharedPreferences("phoneId", Context.MODE_PRIVATE)
+                    var phoneid = sharedPreferences.getString("phoneId", "")
                     for (mac in result.get("macAddress") as List<String>) {
-                        if (currentMac == mac) {
+                        Log.d("mac", "$mac = $phoneid")
+                        var phoneFound: Boolean = false
+                        if (phoneid == mac) {
+                            loading.visibility = View.GONE
+                            username.visibility = View.VISIBLE
+                            fingerprint_iv.visibility = View.VISIBLE
+                            fingerprint_tv.visibility = View.VISIBLE
+                            phoneFound = true
                             username.text = result.get("name").toString()
                             if (checkLockScreen()) {
                                 generateKey()
                                 if (initCipher()) {
-                                    cipher.let {cryptoObject = FingerprintManager.CryptoObject(it)}
-                                    val helper = FingerprintHelper(this)
-
+                                    cipher.let { cryptoObject = FingerprintManager.CryptoObject(it)}
+                                    val helper = FingerprintHelper(this, roomid)
                                     if (fingerprintManager != null && cryptoObject != null) {
                                         helper.startAuth(fingerprintManager, cryptoObject)
                                     }
                                 }
                             }
+                        }
+
+                        if (!phoneFound) {
+                            Toast.makeText(this, "Unauthorized user!\nYou are not allow to unlock the door.", Toast.LENGTH_LONG).show()
+                            this.finish()
                         }
                     }
                 } else {
@@ -68,51 +83,41 @@ class FingerPrint : AppCompatActivity() {
                 }
             }
             .addOnFailureListener { exception ->
-                Log.w("error", "Error getting documents.", exception)
+                Log.w("Firestore", exception)
             }
-    }
-
-    private fun getMac(): String? {
-        try {
-            val all: List<NetworkInterface> = Collections.list(NetworkInterface.getNetworkInterfaces())
-            for (nif in all) {
-                if (nif.name != "wlan0") continue
-                val macBytes: ByteArray = nif.hardwareAddress ?: return ""
-                val res1 = StringBuilder()
-                for (b in macBytes) {
-                    res1.append(String.format("%02X:", b))
-                }
-                if (res1.isNotEmpty()) {
-                    res1.deleteCharAt(res1.length - 1)
-                }
-                return res1.toString()
-            }
-        } catch (ex: java.lang.Exception) {
-        }
-        return "02:00:00:00:00:00"
     }
 
     private fun checkLockScreen(): Boolean {
         keyguardManager = getSystemService(Context.KEYGUARD_SERVICE) as KeyguardManager
         fingerprintManager = getSystemService(Context.FINGERPRINT_SERVICE) as FingerprintManager
-        if (keyguardManager.isKeyguardSecure == false) {
-            Toast.makeText(this,
+        if (!keyguardManager.isKeyguardSecure) {
+            Toast.makeText(
+                this,
                 "Lock screen security not enabled",
-                Toast.LENGTH_LONG).show()
+                Toast.LENGTH_LONG
+            ).show()
             return false
         }
 
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.USE_FINGERPRINT) != PackageManager.PERMISSION_GRANTED) {
-            Toast.makeText(this,
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.USE_FINGERPRINT
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Toast.makeText(
+                this,
                 "Permission not enabled (Fingerprint)",
-                Toast.LENGTH_LONG).show()
+                Toast.LENGTH_LONG
+            ).show()
             return false
         }
 
-        if (fingerprintManager.hasEnrolledFingerprints() == false) {
-            Toast.makeText(this,
+        if (!fingerprintManager.hasEnrolledFingerprints()) {
+            Toast.makeText(
+                this,
                 "No fingerprint registered, please register",
-                Toast.LENGTH_LONG).show()
+                Toast.LENGTH_LONG
+            ).show()
             return false
         }
         return true
@@ -128,10 +133,12 @@ class FingerPrint : AppCompatActivity() {
         try {
             keyGenerator = KeyGenerator.getInstance(
                 KeyProperties.KEY_ALGORITHM_AES,
-                "AndroidKeyStore")
+                "AndroidKeyStore"
+            )
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException(
-                "Failed to get KeyGenerator instance", e)
+                "Failed to get KeyGenerator instance", e
+            )
         } catch (e: NoSuchProviderException) {
             throw RuntimeException("Failed to get KeyGenerator instance", e)
         }
@@ -139,13 +146,17 @@ class FingerPrint : AppCompatActivity() {
         try {
             keyStore.load(null)
             keyGenerator.init(
-                KeyGenParameterSpec.Builder(KEY_NAME,
-                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT)
+                KeyGenParameterSpec.Builder(
+                    KEY_NAME,
+                    KeyProperties.PURPOSE_ENCRYPT or KeyProperties.PURPOSE_DECRYPT
+                )
                     .setBlockModes(KeyProperties.BLOCK_MODE_CBC)
                     .setUserAuthenticationRequired(true)
                     .setEncryptionPaddings(
-                        KeyProperties.ENCRYPTION_PADDING_PKCS7)
-                    .build())
+                        KeyProperties.ENCRYPTION_PADDING_PKCS7
+                    )
+                    .build()
+            )
             keyGenerator.generateKey()
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException(e)
@@ -160,10 +171,7 @@ class FingerPrint : AppCompatActivity() {
 
     private fun initCipher(): Boolean {
         try {
-            cipher = Cipher.getInstance(
-                KeyProperties.KEY_ALGORITHM_AES + "/"
-                        + KeyProperties.BLOCK_MODE_CBC + "/"
-                        + KeyProperties.ENCRYPTION_PADDING_PKCS7)
+            cipher = Cipher.getInstance(KeyProperties.KEY_ALGORITHM_AES + "/" + KeyProperties.BLOCK_MODE_CBC + "/" + KeyProperties.ENCRYPTION_PADDING_PKCS7)
         } catch (e: NoSuchAlgorithmException) {
             throw RuntimeException("Failed to get Cipher", e)
         } catch (e: NoSuchPaddingException) {

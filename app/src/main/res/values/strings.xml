@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">IoT Project</string>
+    <string name="id"></string>
 </resources>

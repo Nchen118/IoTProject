@@ -1,18 +1,20 @@
 package com.example.iotproject
 
-import android.app.ActivityOptions
+import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import android.os.Handler
 import android.transition.Fade
-import android.transition.Slide
 import android.transition.TransitionManager
 import android.transition.TransitionSet
-import android.view.Gravity
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
-import com.google.zxing.qrcode.encoder.QRCode
 import kotlinx.android.synthetic.main.activity_main.*
+import java.io.BufferedReader
+import java.io.FileOutputStream
+import java.io.InputStreamReader
+import java.util.*
 
 
 class MainActivity : AppCompatActivity() {
@@ -23,11 +25,20 @@ class MainActivity : AppCompatActivity() {
 
         Starting_Layout.visibility = View.VISIBLE
         Intro_layout.visibility = View.GONE
+
+        var id = readId()
+
+        if (id.isEmpty()) {
+            generateId()
+            id = readId()
+        }
+
+        val sharedPreferences = getSharedPreferences("phoneId", Context.MODE_PRIVATE)
+        sharedPreferences.edit().putString("phoneId", id).apply()
     }
 
     override fun onStart() {
         super.onStart()
-
         Handler().postDelayed({
             TransitionManager.beginDelayedTransition(
                 Starting_Layout,
@@ -70,5 +81,29 @@ class MainActivity : AppCompatActivity() {
         scan_qr_btn.setOnClickListener {
             startActivity(Intent(this, QrCode::class.java))
         }
+    }
+
+    private fun generateId() {
+        val id = UUID.randomUUID().toString()
+        val fileOutputStream: FileOutputStream
+        try {
+            fileOutputStream = openFileOutput("phoneId", Context.MODE_PRIVATE)
+            fileOutputStream.write(id.toByteArray())
+        } catch (e: Exception){
+            e.printStackTrace()
+        }
+    }
+
+    private fun readId(): String {
+        val stringBuilder = StringBuilder()
+        var text: String? = null
+        try {
+            val bufferedReader = BufferedReader(InputStreamReader(openFileInput("phoneId")))
+            while ({ text = bufferedReader.readLine(); text }() != null) {
+                stringBuilder.append(text)
+            }
+        } catch (e: Exception) {
+        }
+        return stringBuilder.toString()
     }
 }

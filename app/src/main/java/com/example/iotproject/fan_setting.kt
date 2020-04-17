@@ -20,7 +20,6 @@ class fan_setting : AppCompatActivity() {
     private val fan = database.getReference("/Room/$roomId/fan")
     private val fanAuto = database.getReference("/Room/$roomId/fanAuto")
     private val temp = database.getReference("/Room/$roomId/temp")
-    private var l = Library()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_fan_setting)
