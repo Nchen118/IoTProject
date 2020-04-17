@@ -15,7 +15,6 @@ import kotlin.math.roundToInt
 
 class light_setting : AppCompatActivity() {
 
-    private var runFirstTime = 0
     private var auto = false
     private val database = FirebaseDatabase.getInstance()
     private val id = 1;
@@ -38,6 +37,7 @@ class light_setting : AppCompatActivity() {
                 val post = p0.getValue(String::class.java) ?: return
                 if(post=="1"){
                     autoOn()
+
                 }else{
                     autoOff()
                 }
@@ -48,28 +48,25 @@ class light_setting : AppCompatActivity() {
             }
             override fun onDataChange(p0: DataSnapshot) {
                 val post = p0.getValue(String::class.java) ?: return
-//                if(runFirstTime == 0){
-                sleep(1000)
                     adjust.progress = post.toInt()
-
-                    runFirstTime++;
-//                }
                 var l = (post.toFloat() / 255 * 100).roundToInt()
                 LightIntensityText.text = l.toString();
             }
         })
 
         adjust.setOnSeekBarChangeListener(object : SeekBar.OnSeekBarChangeListener {
+            var p = 0
             override fun onProgressChanged(seekBar: SeekBar, progress: Int, fromUser: Boolean) {
-                if(progress in 0..255){
-                    light.setValue(progress.toString())
-
-                }
+                p = progress
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {
                 lightAuto.setValue("0")
             }
-            override fun onStopTrackingTouch(seekBar: SeekBar) {}
+            override fun onStopTrackingTouch(seekBar: SeekBar) {
+                if(p in 0..255){
+                    light.setValue(p.toString())
+                }
+            }
         })
         autoBtn.setOnClickListener {
             if(!auto){

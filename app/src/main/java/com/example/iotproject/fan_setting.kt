@@ -15,10 +15,11 @@ class fan_setting : AppCompatActivity() {
 
     private var fanValue = 0
     private var auto = false
+    private var roomId:Int = 1
     private val database = FirebaseDatabase.getInstance()
-    private val fan = database.getReference("/Room/fan")
-    private val fanAuto = database.getReference("/Room/fanAuto")
-    private val temp = database.getReference("/Room/temp")
+    private val fan = database.getReference("/Room/$roomId/fan")
+    private val fanAuto = database.getReference("/Room/$roomId/fanAuto")
+    private val temp = database.getReference("/Room/$roomId/temp")
     private var l = Library()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
