@@ -43,7 +43,8 @@ class room : AppCompatActivity() {
             }
 
             override fun onDataChange(p0: DataSnapshot) {
-                nameTxt.text = p0.getValue(String::class.java) ?: return
+                var name = p0.getValue(String::class.java) ?: return
+                nameTxt.text = "Hi, $name"
             }
         })
         lightB.setOnClickListener {
@@ -61,7 +62,7 @@ class room : AppCompatActivity() {
             override fun onDataChange(p0: DataSnapshot) {
                 val post = p0.getValue(String::class.java) ?: return
                 var p = (post.toFloat() / 255 * 100).roundToInt()
-                lightText.text = "Light: $p %"
+                lightText.text = "  Light: $p %"
 
             }
         })
@@ -71,7 +72,7 @@ class room : AppCompatActivity() {
             }
             override fun onDataChange(p0: DataSnapshot) {
                 val post = p0.getValue(String::class.java) ?: return
-                fanText.text = "  Fan: $post"
+                fanText.text = "Fan: $post"
 
             }
         })
