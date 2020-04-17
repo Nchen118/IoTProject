@@ -45,7 +45,3 @@ class FingerprintHelper(private val appContext: Context, private val roomid: Str
         appContext.startActivity(Intent(appContext, Room::class.java).putExtra("roomid", roomid))
     }
 }
-
-class fingerPrintUI : AppCompatActivity() {
-
-}

@@ -3,6 +3,7 @@ package com.example.iotproject
 import android.Manifest
 import android.app.KeyguardManager
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.hardware.fingerprint.FingerprintManager
 import android.os.Bundle
@@ -66,6 +67,7 @@ class FingerPrint : AppCompatActivity() {
                                 if (initCipher()) {
                                     cipher.let { cryptoObject = FingerprintManager.CryptoObject(it)}
                                     val helper = FingerprintHelper(this, roomid)
+
                                     if (fingerprintManager != null && cryptoObject != null) {
                                         helper.startAuth(fingerprintManager, cryptoObject)
                                     }
@@ -79,7 +81,8 @@ class FingerPrint : AppCompatActivity() {
                         }
                     }
                 } else {
-
+                    Toast.makeText(this, "No such room!", Toast.LENGTH_LONG).show()
+                    this.finish()
                 }
             }
             .addOnFailureListener { exception ->
