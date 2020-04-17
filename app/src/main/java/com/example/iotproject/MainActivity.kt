@@ -33,6 +33,8 @@ class MainActivity : AppCompatActivity() {
             id = readId()
         }
 
+        Log.d("phoneid", id)
+
         val sharedPreferences = getSharedPreferences("phoneId", Context.MODE_PRIVATE)
         sharedPreferences.edit().putString("phoneId", id).apply()
     }
