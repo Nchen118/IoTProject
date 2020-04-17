@@ -34,11 +34,11 @@ class Room : AppCompatActivity() {
         })
 
         lightB.setOnClickListener {
-            startActivity(Intent(this,light_setting::class.java))
+            startActivity(Intent(this,light_setting::class.java).putExtra("RoomId", id.toString()))
         }
 
         fanB.setOnClickListener {
-            startActivity(Intent(this,fan_setting::class.java))
+            startActivity(Intent(this,fan_setting::class.java).putExtra("RoomId", id.toString()))
         }
 
         light.addValueEventListener(object: ValueEventListener {

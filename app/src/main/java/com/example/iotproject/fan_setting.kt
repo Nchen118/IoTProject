@@ -15,13 +15,14 @@ class fan_setting : AppCompatActivity() {
 
     private var fanValue = 0
     private var auto = false
-    private var roomId:Int = 1
-    private val database = FirebaseDatabase.getInstance()
-    private val fan = database.getReference("/Room/$roomId/fan")
-    private val fanAuto = database.getReference("/Room/$roomId/fanAuto")
-    private val temp = database.getReference("/Room/$roomId/temp")
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val roomId = intent.getStringExtra("RoomId");
+        val database = FirebaseDatabase.getInstance()
+        val fan = database.getReference("/Room/$roomId/fan")
+        val fanAuto = database.getReference("/Room/$roomId/fanAuto")
+        val temp = database.getReference("/Room/$roomId/temp")
         setContentView(R.layout.activity_fan_setting)
 
         val actionbar = supportActionBar

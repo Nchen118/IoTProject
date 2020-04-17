@@ -16,14 +16,14 @@ import kotlin.math.roundToInt
 class light_setting : AppCompatActivity() {
 
     private var auto = false
-    private val database = FirebaseDatabase.getInstance()
-    private val id = 1;
-    private val light = database.getReference("/Room/$id/light")
-    private val lightAuto = database.getReference("/Room/$id/lightAuto")
-    private val intensity = database.getReference("/Room/$id/lightIntensity")
     override fun onCreate(savedInstanceState: Bundle?) {
-
         super.onCreate(savedInstanceState)
+
+        val database = FirebaseDatabase.getInstance()
+        val id = intent.getStringExtra("RoomId");
+        val light = database.getReference("/Room/$id/light")
+        val lightAuto = database.getReference("/Room/$id/lightAuto")
+        val intensity = database.getReference("/Room/$id/lightIntensity")
         setContentView(R.layout.activity_light_setting)
         val actionbar = supportActionBar
         actionbar!!.title = "Adjust Brightness"
