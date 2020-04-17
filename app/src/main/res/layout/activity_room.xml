@@ -15,13 +15,23 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <TextView
+            android:id="@+id/nameTxt"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:fontFamily="monospace"
+            android:paddingStart="8dp"
+            android:text="Hi "
+            android:textAlignment="viewStart"
+            android:textSize="36sp" />
+
+        <TextView
             android:id="@+id/lightText"
             android:layout_width="match_parent"
             android:layout_height="50dp"
             android:fontFamily="monospace"
             android:text="Hello World!"
             android:textAlignment="center"
-            android:textSize="36sp" />
+            android:textSize="24sp" />
 
         <TextView
             android:id="@+id/fanText"
@@ -30,16 +40,9 @@
             android:fontFamily="monospace"
             android:text="Hello World!"
             android:textAlignment="center"
-            android:textSize="36sp" />
+            android:textSize="24sp" />
 
-        <TextView
-            android:id="@+id/tempText"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:fontFamily="monospace"
-            android:text="Temperature "
-            android:textAlignment="center"
-            android:textSize="36sp" />
+
     </LinearLayout>
 
     <androidx.constraintlayout.widget.ConstraintLayout

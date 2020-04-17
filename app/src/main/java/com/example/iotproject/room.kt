@@ -24,9 +24,10 @@ class room : AppCompatActivity() {
         val fan = database.getReference("/Room/$id/fan")
         val lightAuto = database.getReference("/Room/$id/lightAuto")
         val fanAuto = database.getReference("/Room/$id/fanAuto")
-        val temp = database.getReference("/Room/$id/temp")
-        val hum = database.getReference("/Room/$id/hum")
+//        val temp = database.getReference("/Room/$id/temp")
+//        val hum = database.getReference("/Room/$id/hum")
         val intensity = database.getReference("/Room/$id/intensity")
+        var name = database.getReference("Room/$id/name")
         var l = Library()
 
 //        light.setValue("0")
@@ -37,6 +38,14 @@ class room : AppCompatActivity() {
 //        temp.setValue("32")
 //        intensity.setValue("532")
 
+        name.addValueEventListener(object:ValueEventListener{
+            override fun onCancelled(p0: DatabaseError) {
+            }
+
+            override fun onDataChange(p0: DataSnapshot) {
+                nameTxt.text = p0.getValue(String::class.java) ?: return
+            }
+        })
         lightB.setOnClickListener {
             startActivity(Intent(this,light_setting::class.java))
 
@@ -66,30 +75,30 @@ class room : AppCompatActivity() {
 
             }
         })
-        temp.addValueEventListener(object: ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-            override fun onDataChange(p0: DataSnapshot) {
-                val post = p0.getValue(String::class.java) ?: return
-                tempInfo = post
-                updateTemp()
-            }
-        })
-        hum.addValueEventListener(object: ValueEventListener {
-            override fun onCancelled(p0: DatabaseError) {
-
-            }
-            override fun onDataChange(p0: DataSnapshot) {
-                val post = p0.getValue(String::class.java) ?: return
-                humInfo = post
-                updateTemp()
-            }
-        })
+//        temp.addValueEventListener(object: ValueEventListener {
+//            override fun onCancelled(p0: DatabaseError) {
+//
+//            }
+//            override fun onDataChange(p0: DataSnapshot) {
+//                val post = p0.getValue(String::class.java) ?: return
+//                tempInfo = post
+//                updateTemp()
+//            }
+//        })
+//        hum.addValueEventListener(object: ValueEventListener {
+//            override fun onCancelled(p0: DatabaseError) {
+//
+//            }
+//            override fun onDataChange(p0: DataSnapshot) {
+//                val post = p0.getValue(String::class.java) ?: return
+//                humInfo = post
+//                updateTemp()
+//            }
+//        })
 
 
     }
-    fun updateTemp(){
-        tempText.text = "Temp:$tempInfo\u2103 Hum:$humInfo"
-    }
+//    fun updateTemp(){
+//        tempText.text = "Temp:$tempInfo\u2103 Hum:$humInfo"
+//    }
 }

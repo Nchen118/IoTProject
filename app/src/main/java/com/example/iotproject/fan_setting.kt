@@ -145,20 +145,6 @@ class fan_setting : AppCompatActivity() {
         }
     }
 
-//    fun listenTemp(){
-//        temp.addValueEventListener(object: ValueEventListener {
-//            override fun onCancelled(p0: DatabaseError) {
-//            }
-//            override fun onDataChange(p0: DataSnapshot) {
-//                val post = p0.getValue(String::class.java) ?: return
-//                if(auto){
-//                    var p = l.autoFan(post.toInt())
-//                    fan.setValue(p.toString())
-//                }
-//            }
-//        })
-//    }
-
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
         return true
