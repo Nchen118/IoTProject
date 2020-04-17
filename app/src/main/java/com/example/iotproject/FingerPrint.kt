@@ -52,9 +52,9 @@ class FingerPrint : AppCompatActivity() {
                 if (result != null) {
                     val sharedPreferences = getSharedPreferences("phoneId", Context.MODE_PRIVATE)
                     var phoneid = sharedPreferences.getString("phoneId", "")
+                    var phoneFound: Boolean = false
                     for (mac in result.get("macAddress") as List<String>) {
                         Log.d("mac", "$mac = $phoneid")
-                        var phoneFound: Boolean = false
                         if (phoneid == mac) {
                             loading.visibility = View.GONE
                             username.visibility = View.VISIBLE
@@ -74,11 +74,10 @@ class FingerPrint : AppCompatActivity() {
                                 }
                             }
                         }
-
-                        if (!phoneFound) {
-                            Toast.makeText(this, "Unauthorized user!\nYou are not allow to unlock the door.", Toast.LENGTH_LONG).show()
-                            this.finish()
-                        }
+                    }
+                    if (!phoneFound) {
+                        Toast.makeText(this, "Unauthorized user!\nYou are not allow to unlock the door.", Toast.LENGTH_LONG).show()
+                        this.finish()
                     }
                 } else {
                     Toast.makeText(this, "No such room!", Toast.LENGTH_LONG).show()
