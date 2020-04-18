@@ -76,6 +76,7 @@ class light_setting : AppCompatActivity() {
                 startListen = true
 
             }
+
         })
         autoBtn.setOnClickListener {
             if(!auto){

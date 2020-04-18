@@ -2,6 +2,7 @@ package com.example.iotproject
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
@@ -46,5 +47,9 @@ class FingerprintHelper(private val appContext: Context, private val roomid: Str
         Toast.makeText(appContext,"Authentication succeeded.", Toast.LENGTH_LONG).show()
         database.setValue("1")
         appContext.startActivity(Intent(appContext, Room::class.java).putExtra("roomid", roomid))
+        val app = appContext as Activity
+        app.finish()
     }
+
+
 }

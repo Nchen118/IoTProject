@@ -52,5 +52,6 @@ class QrCode : AppCompatActivity(), ResultHandler {
         val vibrator = applicationContext.getSystemService(Context.VIBRATOR_SERVICE) as Vibrator
         vibrator.vibrate(200)
         startActivity(Intent(this, FingerPrint::class.java).putExtra("RoomId", result.toString()))
+        this.finish()
     }
 }
