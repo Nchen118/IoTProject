@@ -24,10 +24,10 @@
         <activity android:name=".fan_setting" />
         <activity android:name=".light_setting"></activity>
         <activity android:name=".Room" >
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+<!--            <intent-filter>-->
+<!--                <action android:name="android.intent.action.MAIN" />-->
+<!--                <category android:name="android.intent.category.LAUNCHER" />-->
+<!--            </intent-filter>-->
         </activity>
         <activity android:name=".FingerPrint" />
         <activity android:name=".QrCode" />
