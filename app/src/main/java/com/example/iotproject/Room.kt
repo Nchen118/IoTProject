@@ -88,7 +88,7 @@ class Room : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar menu items
         if(item.itemId == R.id.qrCode){
-            startActivity(Intent(this, qrCodeGenerator::class.java))
+            startActivity(Intent(this, QRCodeGenerator::class.java))
             return true
         }
 

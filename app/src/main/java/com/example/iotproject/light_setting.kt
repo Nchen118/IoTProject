@@ -4,15 +4,12 @@ import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.SeekBar
 import com.google.firebase.database.*
 import kotlinx.android.synthetic.main.activity_light_setting.*
-import java.lang.Thread.sleep
-import kotlin.math.log
 import kotlin.math.roundToInt
 
 class light_setting : AppCompatActivity() {
@@ -125,7 +122,7 @@ class light_setting : AppCompatActivity() {
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Handle presses on the action bar menu items
         if(item.itemId == R.id.qrCode){
-            startActivity(Intent(this, qrCodeGenerator::class.java))
+            startActivity(Intent(this, QRCodeGenerator::class.java))
             return true
         }
 
