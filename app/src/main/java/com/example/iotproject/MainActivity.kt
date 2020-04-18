@@ -8,6 +8,8 @@ import android.transition.Fade
 import android.transition.TransitionManager
 import android.transition.TransitionSet
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import kotlinx.android.synthetic.main.activity_main.*
@@ -107,5 +109,19 @@ class MainActivity : AppCompatActivity() {
         } catch (e: Exception) {
         }
         return stringBuilder.toString()
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle presses on the action bar menu items
+        if(item.itemId == R.id.qrCode){
+            startActivity(Intent(this, qrCodeGenerator::class.java))
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }

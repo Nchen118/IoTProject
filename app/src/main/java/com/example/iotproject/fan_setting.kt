@@ -1,8 +1,11 @@
 package com.example.iotproject
 
+import android.content.Intent
 import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
@@ -30,6 +33,7 @@ class fan_setting : AppCompatActivity() {
         //set back button
         actionbar.setDisplayHomeAsUpEnabled(true)
         FanTitle.text = "The current fan speed"
+        autoBtn.isEnabled = true
         fanAuto.addValueEventListener(object: ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {
 
@@ -38,8 +42,10 @@ class fan_setting : AppCompatActivity() {
                 val post = p0.getValue(String::class.java) ?: return
                 if(post=="1"){
                     autoOn()
-                }else{
+                }else if(post=="0"){
                     autoOff()
+                }else{
+                    autoBtn.isEnabled = false
                 }
             }
         })
@@ -48,26 +54,33 @@ class fan_setting : AppCompatActivity() {
 
             }
             override fun onDataChange(p0: DataSnapshot) {
-                val post = p0.getValue(String::class.java) ?: return
-                FanSpeedText.text = post
-                fanValue = post.toInt()
-                if(fanValue== 0){
-                    increase.setBackgroundColor(Color.GREEN)
-                    increase.isEnabled = true
-                    decrease.setBackgroundColor(Color.GRAY)
-                    decrease.isEnabled = false
-                }else if(fanValue == 5){
-                    increase.setBackgroundColor(Color.GRAY)
+                val post = p0.getValue(String::class.java) ?: ""
+                if(post==""){
                     increase.isEnabled = false
-                    decrease.setBackgroundColor(Color.GREEN)
-                    decrease.isEnabled = true
+                    decrease.isEnabled = false
+                    FanSpeedText.text = "Error"
                 }else{
-                    increase.setBackgroundColor(Color.GREEN)
-                    increase.isEnabled = true
-                    decrease.setBackgroundColor(Color.GREEN)
-                    decrease.isEnabled = true
+                    FanSpeedText.text = post
+                    fanValue = post.toInt()
+                    if(fanValue== 0){
+                        increase.setBackgroundColor(Color.GREEN)
+                        increase.isEnabled = true
+                        decrease.setBackgroundColor(Color.GRAY)
+                        decrease.isEnabled = false
+                    }else if(fanValue == 5){
+                        increase.setBackgroundColor(Color.GRAY)
+                        increase.isEnabled = false
+                        decrease.setBackgroundColor(Color.GREEN)
+                        decrease.isEnabled = true
+                    }else{
+                        increase.setBackgroundColor(Color.GREEN)
+                        increase.isEnabled = true
+                        decrease.setBackgroundColor(Color.GREEN)
+                        decrease.isEnabled = true
+                    }
+                    updateText()
                 }
-                updateText()
+
             }
         })
         decrease.setOnClickListener {
@@ -146,6 +159,21 @@ class fan_setting : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
+        this.finish()
         return true
+    }
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        val inflater = menuInflater
+        inflater.inflate(R.menu.menu, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        // Handle presses on the action bar menu items
+        if(item.itemId == R.id.qrCode){
+            startActivity(Intent(this, qrCodeGenerator::class.java))
+            return true
+        }
+
+        return super.onOptionsItemSelected(item)
     }
 }
