@@ -38,7 +38,6 @@ class fan_setting : AppCompatActivity() {
                 val post = p0.getValue(String::class.java) ?: return
                 if(post=="1"){
                     autoOn()
-//                    listenTemp()
                 }else{
                     autoOff()
                 }
@@ -72,7 +71,7 @@ class fan_setting : AppCompatActivity() {
             }
         })
         decrease.setOnClickListener {
-            auto = false
+            autoOff()
             fanAuto.setValue("0")
             if(fanValue==0){
                 updateText()
@@ -86,7 +85,7 @@ class fan_setting : AppCompatActivity() {
             }
         }
         increase.setOnClickListener{
-            auto = false
+            autoOff()
             fanAuto.setValue("0")
             if(fanValue==5){
                 updateText()

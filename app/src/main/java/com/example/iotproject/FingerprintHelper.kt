@@ -11,6 +11,7 @@ import android.os.Vibrator
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
+import com.google.firebase.database.FirebaseDatabase
 
 @SuppressLint("ByteOrderMark")
 class FingerprintHelper(private val appContext: Context, private val roomid: String) : FingerprintManager.AuthenticationCallback() {
@@ -41,7 +42,9 @@ class FingerprintHelper(private val appContext: Context, private val roomid: Str
     }
 
     override fun onAuthenticationSucceeded(result: FingerprintManager.AuthenticationResult) {
+        val database = FirebaseDatabase.getInstance().getReference("Room/$roomid/door")
         Toast.makeText(appContext,"Authentication succeeded.", Toast.LENGTH_LONG).show()
+        database.setValue("1")
         appContext.startActivity(Intent(appContext, Room::class.java).putExtra("roomid", roomid))
     }
 }
