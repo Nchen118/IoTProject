@@ -31,6 +31,7 @@ class light_setting : AppCompatActivity() {
         val id = intent.getStringExtra("RoomId");
         light = database.getReference("/Room/$id/light")
         lightAuto = database.getReference("/Room/$id/lightAuto")
+        var lightValue = 0
         setContentView(R.layout.activity_light_setting)
         val actionbar = supportActionBar
         actionbar!!.title = "Adjust Brightness"
@@ -44,6 +45,7 @@ class light_setting : AppCompatActivity() {
                 val post = p0.getValue(String::class.java) ?: return
                 if(post=="1"){
                     autoOn()
+                    lightValue = 0
                 }else if(post=="0"){
                     autoOff()
                 }else{
@@ -60,6 +62,10 @@ class light_setting : AppCompatActivity() {
                     LightIntensityText.text = "Error"
                     adjust.isEnabled = false
                 }else{
+                    if(lightValue==0){
+                        lightValue = post.toInt()
+                        adjust.progress = lightValue
+                    }
                     var l = (post.toFloat() / 255 * 100).roundToInt()
                     LightIntensityText.text = l.toString()
                 }
@@ -72,6 +78,8 @@ class light_setting : AppCompatActivity() {
                 p = progress
             }
             override fun onStartTrackingTouch(seekBar: SeekBar) {
+                autoOff()
+                lightAuto.setValue("0")
             }
             override fun onStopTrackingTouch(seekBar: SeekBar) {
                 if(p in 0..255){
