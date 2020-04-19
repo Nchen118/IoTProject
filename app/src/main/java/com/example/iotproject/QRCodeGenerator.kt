@@ -9,16 +9,17 @@ import com.google.zxing.BarcodeFormat
 import com.google.zxing.qrcode.QRCodeWriter
 import kotlinx.android.synthetic.main.activity_qr_code_generator.*
 
-class qrCodeGenerator : AppCompatActivity() {
+class QRCodeGenerator : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_qr_code_generator)
+
         val sharedPreferences = getSharedPreferences("phoneId", Context.MODE_PRIVATE)
         var phoneid = sharedPreferences.getString("phoneId", "")
 
         val writer = QRCodeWriter()
-        val bitMatrix = writer.encode(phoneid, BarcodeFormat.QR_CODE, 512, 512)
+        val bitMatrix = writer.encode(phoneid, BarcodeFormat.QR_CODE, 1024, 1024)
         val width = bitMatrix.width
         val height = bitMatrix.height
         val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
@@ -28,5 +29,9 @@ class qrCodeGenerator : AppCompatActivity() {
             }
         }
         qrCodeImage.setImageBitmap(bitmap)
+
+        back_btn.setOnClickListener{
+            this.finish()
+        }
     }
 }

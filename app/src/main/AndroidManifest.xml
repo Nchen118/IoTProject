@@ -1,15 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.iotproject">
-
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.hardware.camera" />
     <uses-permission android:name="android.permission.LOCATION_HARDWARE.autofocus" />
-    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.USE_FINGERPRINT" />
 
     <application
@@ -19,16 +15,10 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".qrCodeGenerator">
-        </activity>
+        <activity android:name=".QRCodeGenerator" />
         <activity android:name=".fan_setting" />
-        <activity android:name=".light_setting"></activity>
-        <activity android:name=".Room" >
-<!--            <intent-filter>-->
-<!--                <action android:name="android.intent.action.MAIN" />-->
-<!--                <category android:name="android.intent.category.LAUNCHER" />-->
-<!--            </intent-filter>-->
-        </activity>
+        <activity android:name=".light_setting" />
+        <activity android:name=".Room" />
         <activity android:name=".FingerPrint" />
         <activity android:name=".QrCode" />
         <activity android:name=".MainActivity">
