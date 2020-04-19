@@ -18,6 +18,8 @@ class QRCodeGenerator : AppCompatActivity() {
         val sharedPreferences = getSharedPreferences("phoneId", Context.MODE_PRIVATE)
         var phoneid = sharedPreferences.getString("phoneId", "")
 
+        id_text.text = phoneid
+
         val writer = QRCodeWriter()
         val bitMatrix = writer.encode(phoneid, BarcodeFormat.QR_CODE, 1024, 1024)
         val width = bitMatrix.width
