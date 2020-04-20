@@ -35,8 +35,7 @@ class fan_setting : AppCompatActivity() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 val post = p0.value.toString()
-                if (post == "1") autoSwitch.isChecked = true
-                else if (post == "0") autoSwitch.isChecked = false
+                autoSwitch.isChecked = post == "1"
             }
         })
 
@@ -97,7 +96,7 @@ class fan_setting : AppCompatActivity() {
     }
 
     fun updateText() {
-        FanSpeed.text = fanValue.toString()
+        LightLevel.text = fanValue.toString()
     }
 
     override fun onSupportNavigateUp(): Boolean {
