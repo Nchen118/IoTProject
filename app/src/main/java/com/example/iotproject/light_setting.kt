@@ -47,7 +47,7 @@ class light_setting : AppCompatActivity() {
                     LevelText.text = "Error"
                     adjust.isEnabled = false
                 } else {
-                    adjust.progress = post.toInt()
+                    adjust.progress = post.toFloat().roundToInt()
                     LightLevel.text = (post.toFloat() / 255 * 100).roundToInt().toString() + " %"
                 }
 

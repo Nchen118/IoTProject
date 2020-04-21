@@ -10,7 +10,7 @@
 <!--        app:showAsAction="ifRoom" />-->
     <item
         android:id="@+id/qrCode"
-        android:icon="@drawable/qr_code_icon"
+        android:icon="@drawable/qrcode_white"
         android:title="Phone Id"
         app:showAsAction="ifRoom|withText">
 
