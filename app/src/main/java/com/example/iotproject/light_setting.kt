@@ -82,8 +82,6 @@ class light_setting : AppCompatActivity() {
 
     override fun onSupportNavigateUp(): Boolean {
         onBackPressed()
-        light.removeEventListener(lightListener)
-        lightAuto.removeEventListener(lightAutoListener)
         this.finish()
         return true
     }
