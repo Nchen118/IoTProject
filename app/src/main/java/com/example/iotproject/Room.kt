@@ -29,8 +29,7 @@ class Room : AppCompatActivity() {
         lightLayout.visibility = View.GONE
         fanLayout.visibility = View.GONE
 
-//        var id = intent.getStringExtra("roomid")
-        var id = 2
+        var id = intent.getStringExtra("roomid")
         val database = FirebaseDatabase.getInstance()
         val light = database.getReference("/Room/$id/light")
         val fan = database.getReference("/Room/$id/fan")
