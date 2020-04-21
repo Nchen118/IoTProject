@@ -1,25 +1,22 @@
 package com.example.iotproject
 
 import android.content.Intent
-import android.os.Build
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import androidx.annotation.RequiresApi
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
 import kotlinx.android.synthetic.main.activity_room.*
-import java.time.LocalDateTime
+import java.util.*
 import kotlin.math.roundToInt
 
 class Room : AppCompatActivity() {
-    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
@@ -36,11 +33,11 @@ class Room : AppCompatActivity() {
         var name = database.getReference("/Room/$id/name")
 
         Handler(Looper.getMainLooper()).post {
-            val now = LocalDateTime.now()
+            val now = Calendar.getInstance() //LocalDateTime.now()
             val dbRef =
-                "/PI_01_2020" + ("0" + (now.monthValue)).takeLast(2) + ("0" + (now.dayOfMonth)).takeLast(
+                "/PI_01_2020" + ("0" + (now.time.month + 1)).takeLast(2) + ("0" + (now.time.date)).takeLast(
                     2
-                ) + "/" + ("0" + (now.hour)).takeLast(2)
+                ) + "/" + ("0" + (now.time.hours)).takeLast(2)
             FirebaseDatabase.getInstance("https://bait2123-202003-02.firebaseio.com")
                 .getReference(dbRef).limitToLast(1)
                 .addListenerForSingleValueEvent(object : ValueEventListener {

@@ -118,7 +118,6 @@
             android:max="255"
             android:min="0"
             android:progress="50"
-            android:progressTint="#FF9800"
             android:rotation="-90"
             app:layout_constraintBottom_toTopOf="@+id/autoSwitch"
             app:layout_constraintEnd_toEndOf="parent"

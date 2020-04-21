@@ -21,10 +21,10 @@ class QRCodeGenerator : AppCompatActivity() {
         id_text.text = phoneid
 
         val writer = QRCodeWriter()
-        val bitMatrix = writer.encode(phoneid, BarcodeFormat.QR_CODE, 1024, 1024)
+        val bitMatrix = writer.encode(phoneid, BarcodeFormat.QR_CODE, 256, 256)
         val width = bitMatrix.width
         val height = bitMatrix.height
-        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.RGB_565)
+        val bitmap = Bitmap.createBitmap(width, height, Bitmap.Config.ARGB_8888)
         for (x in 0 until width) {
             for (y in 0 until height) {
                 bitmap.setPixel(x, y, if (bitMatrix.get(x, y)) Color.BLACK else Color.WHITE)
