@@ -48,6 +48,10 @@ class Room : AppCompatActivity() {
                                 if (data.key == "tempe") tempText.text = "Temperature: ${data.value.toString()}"
                                 if (data.key == "humid") humidText.text = "Humidity: ${data.value.toString()}"
                                 if (data.key == "light") lightIntenText.text = "Light Intensity: ${data.value.toString()}"
+                                loadingLayout.visibility = View.GONE
+                                infoLayout.visibility = View.VISIBLE
+                                lightLayout.visibility = View.VISIBLE
+                                fanLayout.visibility = View.VISIBLE
                             }
                         }
                     }
@@ -59,10 +63,6 @@ class Room : AppCompatActivity() {
 
             override fun onDataChange(p0: DataSnapshot) {
                 nameText.text = "Hi, ${p0.value.toString()}"
-                loadingLayout.visibility = View.GONE
-                infoLayout.visibility = View.VISIBLE
-                lightLayout.visibility = View.VISIBLE
-                fanLayout.visibility = View.VISIBLE
             }
         })
 
