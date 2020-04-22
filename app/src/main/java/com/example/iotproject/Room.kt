@@ -46,7 +46,7 @@ class Room : AppCompatActivity() {
                     gotTemp = false
                 }else{
                     gotTemp = true
-                    tempText.text = "Temperature: ${data.value.toString()}"
+                    tempText.text = "Temperature: ${data.value.toString()} \u2103"
                 }
 
             }
@@ -86,7 +86,7 @@ class Room : AppCompatActivity() {
                     override fun onDataChange(p0: DataSnapshot) {
                         p0.children.forEach { id ->
                             id.children.forEach { data ->
-                                if (data.key == "tempe" && !gotTemp) tempText.text = "Temperature: ${data.value.toString()}"
+                                if (data.key == "tempe" && !gotTemp) tempText.text = "Temperature: ${data.value.toString()} \u2103"
                                 if (data.key == "humid" && !gotHum) humidText.text = "Humidity: ${data.value.toString()}"
                                 if (data.key == "light" && !gotIntensity) lightIntenText.text = "Light Intensity: ${data.value.toString()}"
                                 loadingLayout.visibility = View.GONE
