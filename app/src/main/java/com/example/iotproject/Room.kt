@@ -17,6 +17,9 @@ import java.util.*
 import kotlin.math.roundToInt
 
 class Room : AppCompatActivity() {
+    var gotTemp = false
+    var gotHum = false
+    var gotIntensity = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_room)
@@ -31,7 +34,45 @@ class Room : AppCompatActivity() {
         val light = database.getReference("/Room/$id/light")
         val fan = database.getReference("/Room/$id/fan")
         var name = database.getReference("/Room/$id/name")
+        var intensity = database.getReference("/Room/$id/lightIntensity")
+        var temperature = database.getReference("/Room/$id/temp")
+        var humidity = database.getReference("/Room/$id/hum")
+        var myData = database.getReference("/Room/$id")
 
+        temperature.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onDataChange(data: DataSnapshot) {
+                if(data.value == ""){
+                    gotTemp = false
+                }else{
+                    gotTemp = true
+                    tempText.text = "Temperature: ${data.value.toString()}"
+                }
+
+            }
+        })
+        humidity.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onDataChange(data: DataSnapshot) {
+                if(data.value == ""){
+                    gotHum = false
+                }else{
+                    gotHum = true
+                    humidText.text = "Humidity: ${data.value.toString()}"
+                }
+            }
+        })
+        intensity.addValueEventListener(object : ValueEventListener {
+            override fun onCancelled(p0: DatabaseError) {}
+            override fun onDataChange(data: DataSnapshot) {
+                if(data.value == ""){
+                    gotIntensity = false
+                }else{
+                    gotIntensity = true
+                    lightIntenText.text = "Light Intensity: ${data.value.toString()}"
+                }
+            }
+        })
         Handler(Looper.getMainLooper()).post {
             val now = Calendar.getInstance() //LocalDateTime.now()
             val dbRef =
@@ -40,14 +81,14 @@ class Room : AppCompatActivity() {
                 ) + "/" + ("0" + (now.time.hours)).takeLast(2)
             FirebaseDatabase.getInstance("https://bait2123-202003-02.firebaseio.com")
                 .getReference(dbRef).limitToLast(1)
-                .addListenerForSingleValueEvent(object : ValueEventListener {
+                .addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(p0: DatabaseError) {}
                     override fun onDataChange(p0: DataSnapshot) {
                         p0.children.forEach { id ->
                             id.children.forEach { data ->
-                                if (data.key == "tempe") tempText.text = "Temperature: ${data.value.toString()}"
-                                if (data.key == "humid") humidText.text = "Humidity: ${data.value.toString()}"
-                                if (data.key == "light") lightIntenText.text = "Light Intensity: ${data.value.toString()}"
+                                if (data.key == "tempe" && !gotTemp) tempText.text = "Temperature: ${data.value.toString()}"
+                                if (data.key == "humid" && !gotHum) humidText.text = "Humidity: ${data.value.toString()}"
+                                if (data.key == "light" && !gotIntensity) lightIntenText.text = "Light Intensity: ${data.value.toString()}"
                                 loadingLayout.visibility = View.GONE
                                 infoLayout.visibility = View.VISIBLE
                                 lightLayout.visibility = View.VISIBLE
