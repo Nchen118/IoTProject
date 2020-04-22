@@ -28,8 +28,10 @@ class Room : AppCompatActivity() {
         infoLayout.visibility = View.GONE
         lightLayout.visibility = View.GONE
         fanLayout.visibility = View.GONE
+        roomIdTitle.visibility = View.GONE
 
-        var id = intent.getStringExtra("roomid")
+//        var id = intent.getStringExtra("roomid")
+        var id = 2
         val database = FirebaseDatabase.getInstance()
         val light = database.getReference("/Room/$id/light")
         val fan = database.getReference("/Room/$id/fan")
@@ -37,8 +39,8 @@ class Room : AppCompatActivity() {
         var intensity = database.getReference("/Room/$id/lightIntensity")
         var temperature = database.getReference("/Room/$id/temp")
         var humidity = database.getReference("/Room/$id/hum")
-        var myData = database.getReference("/Room/$id")
 
+        roomIdTitle.text = "Room $id"
         temperature.addValueEventListener(object : ValueEventListener {
             override fun onCancelled(p0: DatabaseError) {}
             override fun onDataChange(data: DataSnapshot) {
@@ -48,7 +50,6 @@ class Room : AppCompatActivity() {
                     gotTemp = true
                     tempText.text = "Temperature: ${data.value.toString()} \u2103"
                 }
-
             }
         })
         humidity.addValueEventListener(object : ValueEventListener {
@@ -93,6 +94,7 @@ class Room : AppCompatActivity() {
                                 infoLayout.visibility = View.VISIBLE
                                 lightLayout.visibility = View.VISIBLE
                                 fanLayout.visibility = View.VISIBLE
+                                roomIdTitle.visibility = View.VISIBLE
                             }
                         }
                     }
